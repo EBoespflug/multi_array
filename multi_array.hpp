@@ -41,12 +41,34 @@ constexpr std::size_t factorise(std::size_t value, Ts... values)
 }
 
 template<typename T, std::size_t... Dims>
-class multi_array
+class multi_array : std::array<T, factorise(Dims...)>
 {
-    using container_type = std::array<T, factorise(Dims...)>;
+    using base_type = std::array<T, factorise(Dims...)>;
+public:
 
-private:
-    container_type arr_;
+    using base_type::value_type;
+    using base_type::size_type;
+    using base_type::difference_type;
+
+    using base_type::reference;
+    using base_type::const_reference;
+    using base_type::pointer;
+    using base_type::const_pointer;
+
+    using base_type::iterator;
+    using base_type::const_iterator;
+    using base_type::reverse_iterator;
+    using base_type::const_reverse_iterator;
+
+    using base_type::size;
+
+    multi_array(const multi_array<value_type, Dims...>&) = default;
+    multi_array& operator=(const multi_array<value_type, Dims...>&) = default;
+    multi_array(multi_array<value_type, Dims...>&&) = default;
+    multi_array& operator=(multi_array<value_type, Dims...>&&) = default;
+    ~multi_array() noexcept = default;
+
+    
 };
 }
 
