@@ -2,9 +2,26 @@
 
 #include <iostream>
 
+template<typename Container>
+void print(Container c)
+{
+    std::cout << c.size() << '\n';
+    for(auto&& v : c)
+        std::cout << v << ' ';
+    std::cout << '\n';
+}
+
 int main()
 {
-    eb::multi_array<int, 2, 2> arr{12};
+    eb::multi_array<int, 2, 2> arr{3};
+    eb::multi_array<int, 2, 2> arr2{2};
 
-    std::cout << arr.size() << '\n';
+    print(arr);
+    print(arr2);
+
+    for(auto& i : arr)
+        --i;
+
+    print(arr2);
+
 }

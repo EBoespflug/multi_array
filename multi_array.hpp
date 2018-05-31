@@ -99,7 +99,44 @@ public:
     multi_array(self_type&&) = default;
     self_type& operator=(self_type&&) = default;
     ~multi_array() noexcept = default;
+
+private:
+    constexpr bool equalTo(const multi_array<T, Dims...>& rhs) const
+    {
+        base_type::operator==(rhs);
+    }
+
+    constexpr bool lowerThan(const multi_array<T, Dims...>& rhs) const
+    {
+        base_type::operator<(rhs);
+    }
+
+    template<typename U, std::size_t... D>
+    friend constexpr bool operator==(const multi_array<U, D...>&, const multi_array<U, D...>&);
+
+    template<typename U, std::size_t... D>
+    friend constexpr bool operator<(const multi_array<U, D...>&, const multi_array<U, D...>&);
 };
+
+template<typename U, std::size_t... D>
+constexpr bool operator==(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+{
+    return lhs.equalTo(rhs);
+    /* overhead :
+    using array_type = typename decltype(lhs)::base_type;
+    return static_cast<array_type>(lhs) ==
+        static_cast<array_type>(rhs);*/
+}
+
+template<typename U, std::size_t... D>
+constexpr bool operator<(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+{
+    return lhs.lowerThan(rhs);
+    /* overhead :
+    using array_type = typename decltype(lhs)::base_type;
+    return static_cast<array_type>(lhs) <
+        static_cast<array_type>(rhs);*/
+}
 }
 
 #endif // MULTI_ARRAY_HPP
