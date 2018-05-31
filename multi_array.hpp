@@ -130,6 +130,31 @@ constexpr bool operator<(const multi_array<U, D...>& lhs, const multi_array<U, D
     return static_cast<base_type>(lhs) <
         static_cast<base_type>(rhs);
 }
+
+template<typename U, std::size_t... D>
+constexpr bool operator!=(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+{
+    return !(lhs == rhs);
 }
+
+template<typename U, std::size_t... D>
+constexpr bool operator<=(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+{
+    return (lhs < rhs) || (lhs == rhs);
+}
+
+template<typename U, std::size_t... D>
+constexpr bool operator>(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+{
+    return !(lhs <= rhs);
+}
+
+template<typename U, std::size_t... D>
+constexpr bool operator>=(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+{
+    return !(lhs < rhs);
+}
+
+} // namespace eb
 
 #endif // MULTI_ARRAY_HPP
