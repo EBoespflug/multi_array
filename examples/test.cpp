@@ -4,7 +4,7 @@
 
 int main()
 {
-    eb::multi_array<int, 3, 5, 2, 5, 1, 6> arr;
+    eb::multi_array<int, 2, 2> arr{12};
 
     std::cout << arr.size() << '\n';
 }

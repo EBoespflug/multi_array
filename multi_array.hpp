@@ -47,6 +47,7 @@ class multi_array : std::array<T, factorise(Dims...)>
     using self_type = multi_array<T, Dims...>;
 public:
 
+    // Member types
     using typename base_type::value_type;
     using typename base_type::size_type;
     using typename base_type::difference_type;
@@ -61,12 +62,38 @@ public:
     using typename base_type::reverse_iterator;
     using typename base_type::const_reverse_iterator;
 
+    // Element access
+    using base_type::at;
+    using base_type::operator[];
+    using base_type::front;
+    using base_type::back;
+    using base_type::data;
+
+    // Iterators
+    using base_type::begin;
+    using base_type::cbegin;
+    using base_type::rbegin;
+    using base_type::crbegin;
+
+    using base_type::end;
+    using base_type::cend;
+    using base_type::rend;
+    using base_type::crend;
+
+    // Capacity
+    using base_type::empty;
     using base_type::size;
+    using base_type::max_size;
+
+    // Operations
+    using base_type::fill;
+    using base_type::swap;
 
     explicit multi_array(const_reference value = value_type{})
     {
         base_type::fill(value);
     }
+
     multi_array(const self_type&) = default;
     self_type& operator=(const self_type&) = default;
     multi_array(self_type&&) = default;
