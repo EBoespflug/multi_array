@@ -101,15 +101,6 @@ public:
     ~multi_array() noexcept = default;
 
 private:
-    constexpr bool equalTo(const multi_array<T, Dims...>& rhs) const
-    {
-        base_type::operator==(rhs);
-    }
-
-    constexpr bool lowerThan(const multi_array<T, Dims...>& rhs) const
-    {
-        base_type::operator<(rhs);
-    }
 
     template<typename U, std::size_t... D>
     friend constexpr bool operator==(const multi_array<U, D...>&, const multi_array<U, D...>&);
@@ -121,21 +112,23 @@ private:
 template<typename U, std::size_t... D>
 constexpr bool operator==(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
 {
-    return lhs.equalTo(rhs);
-    /* overhead :
-    using array_type = typename decltype(lhs)::base_type;
-    return static_cast<array_type>(lhs) ==
-        static_cast<array_type>(rhs);*/
+    using type = typename std::remove_cv_t<typename std::remove_reference_t<decltype(lhs)>>;
+    using base_type = typename type::base_type;
+
+    // overhead ?
+    return static_cast<base_type>(lhs) ==
+        static_cast<base_type>(rhs);
 }
 
 template<typename U, std::size_t... D>
 constexpr bool operator<(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
 {
-    return lhs.lowerThan(rhs);
-    /* overhead :
-    using array_type = typename decltype(lhs)::base_type;
-    return static_cast<array_type>(lhs) <
-        static_cast<array_type>(rhs);*/
+    using type = typename std::remove_cv_t<typename std::remove_reference_t<decltype(lhs)>>;
+    using base_type = typename type::base_type;
+
+    // overhead ?
+    return static_cast<base_type>(lhs) <
+        static_cast<base_type>(rhs);
 }
 }
 

@@ -24,4 +24,8 @@ int main()
 
     print(arr2);
 
+    if(arr == arr2)
+        std::cout << "Equals !\n";
+    else
+        std::cout << "Not equals !\n";
 }
