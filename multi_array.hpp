@@ -23,27 +23,14 @@
 #define MULTI_ARRAY_HPP
 
 #include <array>
-
-
-
+#include <cassert>
 
 namespace eb{
 
-constexpr std::size_t factorise(std::size_t value)
-{
-    return value;
-}
-
-template<typename... Ts>
-constexpr std::size_t factorise(std::size_t value, Ts... values)
-{
-    return value * factorise(values...);
-}
-
 template<typename T, std::size_t... Dims>
-class multi_array : std::array<T, factorise(Dims...)>
+class multi_array : std::array<T, (Dims * ...)>
 {
-    using base_type = std::array<T, factorise(Dims...)>;
+    using base_type = std::array<T, (Dims * ...)>;
     using self_type = multi_array<T, Dims...>;
 public:
 
@@ -95,22 +82,22 @@ public:
     }
 
     multi_array(const self_type&) = default;
-    self_type& operator=(const self_type&) = default;
+    self_type& operator= (const self_type&) = default;
     multi_array(self_type&&) = default;
-    self_type& operator=(self_type&&) = default;
+    self_type& operator= (self_type&&) = default;
     ~multi_array() noexcept = default;
 
 private:
 
     template<typename U, std::size_t... D>
-    friend constexpr bool operator==(const multi_array<U, D...>&, const multi_array<U, D...>&);
+    friend constexpr bool operator== (const multi_array<U, D...>&, const multi_array<U, D...>&);
 
     template<typename U, std::size_t... D>
-    friend constexpr bool operator<(const multi_array<U, D...>&, const multi_array<U, D...>&);
+    friend constexpr bool operator< (const multi_array<U, D...>&, const multi_array<U, D...>&);
 };
 
 template<typename U, std::size_t... D>
-constexpr bool operator==(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+constexpr bool operator== (const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
 {
     using type = typename std::remove_cv_t<typename std::remove_reference_t<decltype(lhs)>>;
     using base_type = typename type::base_type;
@@ -121,7 +108,7 @@ constexpr bool operator==(const multi_array<U, D...>& lhs, const multi_array<U, 
 }
 
 template<typename U, std::size_t... D>
-constexpr bool operator<(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+constexpr bool operator< (const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
 {
     using type = typename std::remove_cv_t<typename std::remove_reference_t<decltype(lhs)>>;
     using base_type = typename type::base_type;
@@ -132,25 +119,25 @@ constexpr bool operator<(const multi_array<U, D...>& lhs, const multi_array<U, D
 }
 
 template<typename U, std::size_t... D>
-constexpr bool operator!=(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+constexpr bool operator!= (const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
 {
     return !(lhs == rhs);
 }
 
 template<typename U, std::size_t... D>
-constexpr bool operator<=(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+constexpr bool operator<= (const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
 {
     return (lhs < rhs) || (lhs == rhs);
 }
 
 template<typename U, std::size_t... D>
-constexpr bool operator>(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+constexpr bool operator> (const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
 {
     return !(lhs <= rhs);
 }
 
 template<typename U, std::size_t... D>
-constexpr bool operator>=(const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
+constexpr bool operator>= (const multi_array<U, D...>& lhs, const multi_array<U, D...>& rhs)
 {
     return !(lhs < rhs);
 }

@@ -13,14 +13,18 @@ void print(Container c)
 
 int main()
 {
-    eb::multi_array<int, 2, 2> arr{3};
-    eb::multi_array<int, 2, 2> arr2{2};
+    eb::multi_array<int, 3, 2, 2> arr{3};
+    eb::multi_array<int, 3, 2, 2> arr2{2};
 
     print(arr);
     print(arr2);
 
+    //arr2(2, 1, 1) = 15;
+
     for(auto& i : arr)
         --i;
+
+
 
     print(arr2);
 
