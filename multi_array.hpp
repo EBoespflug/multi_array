@@ -30,7 +30,7 @@ namespace eb{
 template<std::size_t, typename T> using alwaysT_t = T;
 
 template<std::size_t... Dims>
-size_t linearise(std::index_sequence<Dims...>, alwaysT_t<Dims, std::size_t>... indexes_args)
+size_t linearise(alwaysT_t<Dims, std::size_t>... indexes_args)
 {
     constexpr std::size_t dimensions[] = {Dims...};
     std::size_t indexes[] = {indexes_args...};
@@ -112,13 +112,13 @@ public:
     template<typename... Indexes>
     reference operator() (Indexes... indexes)
     {
-        return base_type::operator[] (linearise(std::index_sequence<Dims...>{}, indexes...));
+        return base_type::operator[] (linearise<Dims...>(indexes...));
     }
 
     template<typename... Indexes>
     const_reference operator() (Indexes... indexes) const
     {
-        return base_type::operator[] (linearise(std::index_sequence<Dims...>{}, indexes...));
+        return base_type::operator[] (linearise<Dims...>(indexes...));
     }
 
 private:
