@@ -24,14 +24,36 @@
 
 #include <array>
 #include <cassert>
-
+#include <iostream>
 namespace eb{
+
+template<std::size_t, typename T> using alwaysT_t = T;
+
+template<std::size_t... Dims>
+size_t linearise(std::index_sequence<Dims...>, alwaysT_t<Dims, std::size_t>... indexes_args)
+{
+    constexpr std::size_t dimensions[] = {Dims...};
+    std::size_t indexes[] = {indexes_args...};
+
+    size_t index = 0;
+    size_t product = 1;
+
+    for(std::size_t i{ sizeof...(Dims) }; i != 0; --i) {
+        assert(indexes[i - 1] < dimensions[i - 1]);
+        index += indexes[i - 1] * product;
+        product *= dimensions[i - 1];
+    }
+
+    assert(index < (Dims * ...));
+    return index;
+}
 
 template<typename T, std::size_t... Dims>
 class multi_array : std::array<T, (Dims * ...)>
 {
     using base_type = std::array<T, (Dims * ...)>;
     using self_type = multi_array<T, Dims...>;
+
 public:
 
     // Member types
@@ -86,6 +108,18 @@ public:
     multi_array(self_type&&) = default;
     self_type& operator= (self_type&&) = default;
     ~multi_array() noexcept = default;
+
+    template<typename... Indexes>
+    reference operator() (Indexes... indexes)
+    {
+        return base_type::operator[] (linearise(std::index_sequence<Dims...>{}, indexes...));
+    }
+
+    template<typename... Indexes>
+    const_reference operator() (Indexes... indexes) const
+    {
+        return base_type::operator[] (linearise(std::index_sequence<Dims...>{}, indexes...));
+    }
 
 private:
 
