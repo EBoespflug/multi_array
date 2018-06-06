@@ -25,12 +25,13 @@
 #include <array>
 #include <cassert>
 #include <iostream>
+
 namespace eb{
 
-template<std::size_t, typename T> using alwaysT_t = T;
+template<std::size_t, typename T> using sized_t = T;
 
 template<std::size_t... Dims>
-size_t linearise(alwaysT_t<Dims, std::size_t>... indexes_args)
+size_t linearise(sized_t<Dims, std::size_t>... indexes_args)
 {
     constexpr std::size_t dimensions[] = {Dims...};
     std::size_t indexes[] = {indexes_args...};
