@@ -33,7 +33,7 @@ Element access is done using ```operator()```. No bound-checking is done for now
 ```cpp
 a1(8) = 0; // modify 9th item a2
 std::cout << a1(0); // access first item of a1.
-a2(5, 4, 2) = 0.1; // access item at a2[5, 4, 2], i.e. the linearised index : idx = 5*(11*4) + 5*(4) + 2 = 242.
+a2(5, 4, 2) = 0.1; // modify item at a2[5, 4, 2], i.e. the linearised index : idx = 5*(11*4) + 5*(4) + 2 = 242.
 ```
 
 ### Member functions
@@ -47,6 +47,15 @@ a2(5, 4, 2) = 0.1; // access item at a2[5, 4, 2], i.e. the linearised index : id
  - ```swap```.
 
 Also, the several comparison non-member operators are provided for equality and ordering comparisons (applied on the entire linearised array).
+
+## Future works
+
+This section includes several unordored future improvement ideas :
+ - bound-checking.
+ - contract (pre-cond, post-cond, invariant) using **C++20**'s feature.
+ - algorithms such as ```std::array``` <=> ```multi_array``` conversion.
+ - dynamic equivalent ```multi_vector```.
+ - span-based equivalent, to provide generic view adaptor for mutli-dimensional arrays.
 
 ## Contributors
 
