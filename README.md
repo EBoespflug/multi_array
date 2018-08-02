@@ -2,17 +2,17 @@
 
 ## Overview
 
-multi_array is a multidimensional linearized std::array written in C++17.
+```multi_array``` is a multidimensional linearized ```std::array``` written in *C++17*.
 
 ## Installation
 
-multi_array is defined in an unique header file. To use it, simply include this header in your source folder.
+```multi_array``` is defined in an unique header file. To use it, simply include this header in your source folder.
 
 ## Usage
 
 This repository includes several example of usage of ```multi_array``` [here](https://github.com/EBoespflug/multi_array/tree/master/examples).
 
-A ```multi_array``` is defined by the type of the array's items, and a variadic number of unsigned integers defining the size of each dimension. The dimensions and their size cannot be dynamically modified during the execution.
+A ```multi_array``` is defined by the type of the array's items, and a variadic number of unsigned integers defining the size of each dimension. The dimensions and their sizes cannot be dynamically modified during the execution.
 
 Here is some example of ```multi_array``` constructions :
 
@@ -24,6 +24,14 @@ int main()
     eb::multi_array<int, 10> a1; // one-dimensional array of 10 ints.
     eb::multi_array<int, 8, 11, 4> a2; // two-dimensional array of double. Semantically equivalent to double[8][11][4].
 }
+```
+
+Element access is done using ```operator()```. No bound-checking is done for now :
+
+```cpp
+a1(8) = 0; // modify 9th item a2
+std::cout << a1(0); // access first item of a1.
+a2(5, 4, 2) = 0.1; // access item at a2[5, 4, 2], i.e. the linearised index : idx = 5*(11*4) + 5*(4) + 2 = 242.
 ```
 
 ## Contributors
