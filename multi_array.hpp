@@ -30,11 +30,11 @@ namespace eb{
 
 template<std::size_t, typename T> using sized_t = T;
 
-template<std::size_t... Dims>
-size_t linearise(sized_t<Dims, std::size_t>... indexes_args)
+template<size_t... Dims, typename... Indexes>
+size_t linearise(Indexes... indexes_args)
 {
     constexpr std::size_t dimensions[] = {Dims...};
-    std::size_t indexes[] = {indexes_args...};
+    std::size_t indexes[] = {static_cast<std::size_t>(indexes_args)...};
 
     size_t index = 0;
     size_t product = 1;
