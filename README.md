@@ -28,7 +28,7 @@ int main()
 }
 ```
 
-Element access is done using ```operator()```. No bound-checking is done for now :
+Element access is uses ```operator()```. No bound-checking is done for now :
 
 ```cpp
 a1(8) = 0; // modify 9th item a2
