@@ -1,5 +1,5 @@
 /**
- * ezl_char_undef.hpp
+ * multi_array.hpp
  * Etienne Boespflug - 2018
  *
  * This file contains preprocessor undef directives
